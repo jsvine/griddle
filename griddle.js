@@ -8,57 +8,30 @@
 	}
 // `init` creates a new griddle, using `container` as the holder,
 // accepting any `attr.data`, a custom `render` function, and `options`.
-	Griddle.init = function(attr) {
+	Griddle.init = function (attr) {
 		var grid = {
 				container: attr.container,
 				el: CE('div', 'griddle_grid'),
 				n_col: attr.n_col || attr.data.length,
 				current_index: 0,
 				tiles: [],
-				move: function (direction) {
-					var init_index = this.current_index,
-						left = px2int(this.el.style.left),
-						top = px2int(this.el.style.top);
-					switch(direction){
-					case 'left':
-						if ((this.current_index + 1) % this.n_col) {
-							this.el.style.left = left - this.tiles[this.current_index].el.offsetWidth + 'px';
-							this.current_index += 1;
-						} else {
-							return false;	
-						}
-						break;
-					case 'right':
-						if (this.current_index % this.n_col) {
-							this.el.style.left = left + this.tiles[this.current_index].el.offsetWidth + 'px';
-							this.current_index -= 1;
-						} else {
-							return false;	
-						}
-						break;
-					case 'up':
-						if (this.current_index < this.n_col) { 
-							this.el.style.top = top - this.tiles[this.current_index].el.offsetHeight + 'px';
-							this.current_index += this.n_col;
-						} else {
-							return false;	
-						}
-						break;
-					case 'down':
-						if (this.current_index >= (this.tiles.length - this.n_col)) {
-							this.el.style.top = top + this.tiles[this.current_index].el.offsetHeight + 'px';
-							this.current_index -= this.n_col;
-						} else {
-							return false;	
-						}
-						break;
-					default:
+				goto: function (destination_index) {
+					var current_tile = this.tiles[this.current_index],
+						destination_tile = this.tiles[destination_index];
+					this.el.style.left = -(destination_tile.x * this.el.offsetWidth / this.n_col) + 'px';
+					this.el.style.top = -(destination_tile.y * this.el.offsetHeight * this.n_col / this.tiles.length) + 'px';
+					attr.onexit && attr.onexit.call(current_tile);
+					attr.onenter && attr.onenter.call(destination_tile);
+					this.current_index = destination_index;
+					return this;
+				},
+				shift: function (direction) {
+					var dest = this.tiles[this.current_index].adjacent[direction];
+					if (dest !== false) {
+						return this.goto(dest);
+					} else {
 						return false;
-						break;
 					}
-					attr.onexit && attr.onexit.call(this.tiles[init_index]);
-					attr.onenter && attr.onenter.call(this.tiles[this.current_index]);
-					return this.current_index;
 				}
 			},
 			tile,
@@ -87,10 +60,10 @@
 				x: x,
 				y: y,
 				adjacent: {
-					left: x > 0 ? x - 1 : false,
-					right: x < (this.n_col - 1) ? x + 1 : false,
-					up: y > 0 ? y - 1 : false,
-					down: y < ((this.tiles.length / this.n_col) - 1) ? y + 1 : false
+					left: x > 0 ? i - 1 : false,
+					right: x < (this.n_col - 1) ? i + 1 : false,
+					up: y > 0 ? i - this.n_col : false,
+					down: y < ((this.tiles.length / this.n_col) - 1) ? i + this.n_col : false
 				}
 			};
 		}
