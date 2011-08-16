@@ -1,0 +1,27 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN""
+"http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8">
+
+	<title>Grid Test</title>
+	
+</head>
+<body>
+	<div id='grid_test'></div>
+	<link rel="stylesheet" href="griddle.css" type="text/css" media="screen" charset="utf-8"></link>
+	<script src="griddle.js" type="text/javascript" charset="utf-8"></script>
+	<script type="text/javascript" charset="utf-8">
+		var grid = Griddle.init({
+				container: document.getElementById('grid_test'), 
+				data: ["#daa","#aba", "#086", "#234",
+					"#cca","#ada", "#EFA", "#3FE"],
+				n_col: 4,
+				render: function(datum){
+					this.style.backgroundColor = datum;	
+				},
+				enableArrows: true
+			});
+	</script>
+</body>
+</html>
