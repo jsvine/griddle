@@ -58,9 +58,9 @@
 					destination_tile = this.tiles[destination_index];
 				this.el.style.left = -(destination_tile.el.offsetLeft) + 'px';
 				this.el.style.top = -(destination_tile.el.offsetTop) + 'px';
-				if (attr.onexit) { attr.onexit.call(current_tile); }
-				if (attr.onenter) { attr.onenter.call(destination_tile); }
+				if (attr.onexit) { attr.onexit.call(grid); }
 				this.current_index = destination_index;
+				if (attr.onenter) { attr.onenter.call(grid); }
 				return this;
 			},
 			shift: function (direction, distance) { // distance is an optional param, defaults to 1
