@@ -84,8 +84,8 @@
 				cssFloat: 'left',
 				styleFloat: 'left', // For IE
 				clear: i % grid.n_col ? 'none' : 'left',
-				width: 100 / grid.n_col + '%',
-				height: 100 * grid.n_col / attr.data.length + '%'
+				width: attr.flexible_width ? 'auto' : 100 / grid.n_col + '%',
+				height: attr.flexible_height ? 'auto' : 100 * grid.n_col / attr.data.length + '%'
 			});
 			attr.render.call(tile, attr.data[i]); // calls `render(attr.data[i])` with `this` set to `tile`
 			grid.tiles.push(tile);
