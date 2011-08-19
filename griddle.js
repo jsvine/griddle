@@ -63,13 +63,16 @@
 				this.current_index = destination_index;
 				return this;
 			},
-			shift: function (direction) {
-				var dest = this.tiles[this.current_index].adjacent[direction];
-				if (this.tiles[dest]) {
-					return this.goto(dest);
-				} else {
-					return false;
+			shift: function (direction, distance) { // distance is an optional param, defaults to 1
+				var i = this.current_index;
+				distance = distance || 1;
+				while (distance--) {
+					i = this.tiles[i].adjacent[direction];
+					if (!this.tiles[i]) {
+						return false;	
+					}
 				}
+				return this.goto(i);
 			}
 		};
 		
