@@ -56,8 +56,8 @@
 			goto: function (destination_index) {
 				var current_tile = this.tiles[this.current_index],
 					destination_tile = this.tiles[destination_index];
-				this.el.style.left = -(destination_tile.x * this.el.offsetWidth / this.n_col) + 'px';
-				this.el.style.top = -(destination_tile.y * this.el.offsetHeight * this.n_col / this.tiles.length) + 'px';
+				this.el.style.left = -(destination_tile.el.offsetLeft) + 'px';
+				this.el.style.top = -(destination_tile.el.offsetTop) + 'px';
 				if (attr.onexit) { attr.onexit.call(current_tile); }
 				if (attr.onenter) { attr.onenter.call(destination_tile); }
 				this.current_index = destination_index;
