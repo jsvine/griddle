@@ -96,7 +96,7 @@
 			width: 100 * grid.n_col / grid.n_col_visible + '%',
 			height: 100 * attr.data.length / (grid.n_col * grid.n_row_visible) + '%',
 			position: 'relative',
-			overflow: 'hidden',
+			overflow: 'visible',
 			top: 0,
 			left: 0,
 			WebkitTransition: transition,
