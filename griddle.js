@@ -7,20 +7,17 @@
 		root.Griddle = Griddle;	
 	}
 	// HELPER FUNCTIONS
-	function applyStyles(el, styles) {
+	function stylize(styles) {
 		var s;
 		for (s in styles) {
-			el.style[s] = styles[s];	
+			this.style[s] = styles[s];	
 		}
-		return el;
+		return this;
 	}
-	function CE(tag, className, innerHTML, styles) {
+	function CE(tag, className, innerHTML) {
 		var el = document.createElement(tag);
 		if (className) { el.className = className; }
 		if (innerHTML) { el.innerHTML = innerHTML; }
-		if (styles) {
-			applyStyles(el, styles);
-		}
 		return el;
 	}
 	// `Tile` constructor	
@@ -80,7 +77,7 @@
 		
 		for (i = 0; i < attr.data.length; i++) {
 			tile = Tile.call(grid, i);
-			applyStyles(tile.el, {
+			stylize.call(tile.el, {
 				cssFloat: 'left',
 				styleFloat: 'left', // For IE
 				width: attr.flexible_width ? 'auto' : 100 / grid.n_col + '%',
@@ -91,7 +88,7 @@
 			grid.el.appendChild(tile.el);
 		}
 
-		applyStyles(grid.el, {
+		stylize.call(grid.el, {
 			width: 100 * grid.n_col / grid.n_col_visible + '%',
 			height: 100 * attr.data.length / (grid.n_col * grid.n_row_visible) + '%',
 			position: 'relative',
@@ -105,7 +102,7 @@
 			Transition: transition
 		});
 
-		applyStyles(attr.container, {
+		stylize.call(attr.container, {
 			overflow: 'hidden',
 			position: 'relative'
 		});		
