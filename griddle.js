@@ -70,6 +70,12 @@
 					}
 				}
 				return this.goto(i);
+			},
+			add: function (datum, index) {
+				index = index || this.tiles.length;
+				// add to tiles[]
+				// recalculate adjacents
+				// return grid
 			}
 		};
 		
