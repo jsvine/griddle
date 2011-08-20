@@ -83,7 +83,6 @@
 			applyStyles(tile.el, {
 				cssFloat: 'left',
 				styleFloat: 'left', // For IE
-				clear: i % grid.n_col ? 'none' : 'left',
 				width: attr.flexible_width ? 'auto' : 100 / grid.n_col + '%',
 				height: attr.flexible_height ? 'auto' : 100 * grid.n_col / attr.data.length + '%'
 			});
