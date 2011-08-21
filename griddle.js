@@ -107,6 +107,14 @@
 				}
 				calculatePositions.call(this);	
 				return this;
+			},
+			remove: function (index, removedTilesArray) {
+				if (removedTilesArray) {
+					removedTilesArray.push(this.tiles[index]);
+				}
+				this.el.removeChild(this.tiles[index].el);
+				this.tiles.splice(index, 1);
+				return this;
 			}
 		};
 		
