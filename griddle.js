@@ -108,12 +108,14 @@
 				calculatePositions.call(this);	
 				return this;
 			},
-			remove: function (index, removedTilesArray) {
-				if (removedTilesArray) {
-					removedTilesArray.push(this.tiles[index]);
+			remove: function (index, n, removedTilesArray) {
+				var countdown = n || 1;
+				while (countdown--) {
+					removedTilesArray && removeTilesArray.push(this.tiles.slice(i, 1));
+					this.el.removeChild(this.tiles[index].el);
+					this.tiles.splice(index, 1);
 				}
-				this.el.removeChild(this.tiles[index].el);
-				this.tiles.splice(index, 1);
+				calculatePositions.call(this);
 				return this;
 			}
 		};
@@ -139,7 +141,7 @@
 			position: 'relative'
 		});		
 
-		grid.add(attr.data);	
+		grid.add(attr.data);
 		attr.container.appendChild(grid.el);
 		return grid;
 	};
