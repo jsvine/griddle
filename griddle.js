@@ -20,21 +20,38 @@
 		if (innerHTML) { el.innerHTML = innerHTML; }
 		return el;
 	}
-	// `Tile` constructor	
-	function Tile(i) {
-		var x = i % this.n_col,
+	function calculatePositions() {
+		var i, x, y;
+		for (i = 0; i < this.tiles.length; i++) {
+			x = i % this.n_col;
 			y = Math.floor(i / this.n_col);
-		return {
-			el: CE('div', 'griddle_tile'),
-			index: i,
-			x: x,
-			y: y,
-			adjacent: {
+			this.tiles[i].x = x;
+			this.tiles[i].y = y;
+			this.tiles[i].index = i;
+			this.tiles[i].adjacent = {
 				left: x > 0 ? i - 1 : false,
 				right: x < (this.n_col - 1) ? i + 1 : false,
 				up: y > 0 ? i - this.n_col : false,
 				down: y < ((this.tiles.length / this.n_col) - 1) ? i + this.n_col : false
-			}
+			}	
+		}
+	}
+	// `Tile` constructor	
+	function Tile(data) {
+		var el = CE('div', 'griddle_tile');
+		stylize.call(el, {
+			cssFloat: 'left',
+			styleFloat: 'left', // For IE
+			width: this.attr.flexible_width ? 'auto' : 100 / this.n_col + '%',
+			height: this.attr.flexible_height ? 'auto' : 100 * this.n_col / this.attr.data.length + '%'
+		});
+		return {
+			data: data,
+			el: el, 
+			index: null,
+			x: null,
+			y: null,
+			adjacent: {}
 		};
 	}
 
@@ -43,6 +60,7 @@
 	Griddle.extend = function (attr) {
 		var grid, tile, i, transition;
 		grid = {
+			attr: attr,
 			container: attr.container,
 			el: CE('div', 'griddle'),
 			n_col: attr.n_col || attr.data.length,
@@ -69,30 +87,30 @@
 						return false;	
 					}
 				}
-				return this.goto(i);
+				return this.goto(i); // which ultimately returns 'this'
 			},
-			add: function (datum, index) {
-				index = index || this.tiles.length;
-				// add to tiles[]
-				// recalculate adjacents
-				// return grid
+			add: function (data, index, custom_render) {
+				var tile, i, render = custom_render || attr.render;
+				if (Object.prototype.toString.call(data) !== '[object Array]') {
+					data = [data];	
+				}
+				for (i = 0; i < data.length; i++) {
+					tile = Tile.call(grid, data[i]);
+					attr.render.call(tile);
+					if (index === undefined) {
+						this.el.appendChild(tile.el);
+						this.tiles.push(tile);
+					} else {
+						this.el.insertBefore(this.el, this.tiles[index].el);
+						this.tiles.splice(index, 0, tile);
+					}
+				}
+				calculatePositions.call(this);	
+				return this;
 			}
 		};
 		
 		transition = attr.transition || "left 0.25s linear, top 0.25s linear";
-		
-		for (i = 0; i < attr.data.length; i++) {
-			tile = Tile.call(grid, i);
-			stylize.call(tile.el, {
-				cssFloat: 'left',
-				styleFloat: 'left', // For IE
-				width: attr.flexible_width ? 'auto' : 100 / grid.n_col + '%',
-				height: attr.flexible_height ? 'auto' : 100 * grid.n_col / attr.data.length + '%'
-			});
-			attr.render.call(tile, attr.data[i]); // calls `render(attr.data[i])` with `this` set to `tile`
-			grid.tiles.push(tile);
-			grid.el.appendChild(tile.el);
-		}
 
 		stylize.call(grid.el, {
 			width: 100 * grid.n_col / grid.n_col_visible + '%',
@@ -112,29 +130,8 @@
 			overflow: 'hidden',
 			position: 'relative'
 		});		
-		
-		if (attr.enableArrows) {
-			document.onkeydown = function (e) {
-				var evt = e || window.event;
-				switch (evt.keyCode) {
-				case 37: // Left
-					grid.shift('left');
-					break;
-				case 38: // Up
-					grid.shift('up');
-					break;
-				case 39: // Right
-					grid.shift('right');
-					break;
-				case 40: // Down
-					grid.shift('down');
-					break;
-				default:
-					break;
-				}	
-			};
-		}
 
+		grid.add(attr.data);	
 		attr.container.appendChild(grid.el);
 		return grid;
 	};
