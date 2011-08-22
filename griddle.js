@@ -56,7 +56,7 @@
 
 // `init` creates a new griddle, using `container` as the holder,
 // accepting any `attr.data`, a custom `render` function, and `options`.
-	Griddle.extend = function (attr) {
+	Griddle.create = function (attr) {
 		var grid, tile, i, transition;
 		grid = {
 			init_attr: attr,
