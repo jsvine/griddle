@@ -159,4 +159,4 @@
 		attr.container.appendChild(grid.el);
 		return grid;
 	};
-})();
+}());
