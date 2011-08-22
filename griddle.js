@@ -1,10 +1,9 @@
 (function () {
-	var root = this,
-		Griddle = {};
-	if (root.Griddle) {
+	var Griddle = {};
+	if (window.Griddle) {
 		throw new Error('Global `Griddle` already exists.');	
 	} else {
-		root.Griddle = Griddle;	
+		window.Griddle = Griddle;	
 	}
 	// HELPER FUNCTIONS
 	function stylize(styles) {
@@ -42,8 +41,8 @@
 		stylize.call(el, {
 			cssFloat: 'left',
 			styleFloat: 'left', // For IE
-			width: this.attr.flexible_width ? 'auto' : 100 / this.n_col + '%',
-			height: this.attr.flexible_height ? 'auto' : 100 * this.n_col / this.attr.data.length + '%'
+			width: this.tile_width ? this.tile_width + 'px' : 'auto',
+			height: this.tile_height ? this.tile_height + 'px' : 'auto'
 		});
 		return {
 			data: data,
@@ -60,13 +59,15 @@
 	Griddle.extend = function (attr) {
 		var grid, tile, i, transition;
 		grid = {
-			attr: attr,
+			init_attr: attr,
 			container: attr.container,
 			el: CE('div', 'griddle'),
 			n_col: attr.n_col || attr.data.length,
 			n_col_visible: attr.n_col_visible || 1,
 			n_row_visible: attr.n_row_visible || 1,
 			current_index: 0,
+			tile_width: attr.tile_width,
+			tile_height: attr.tile_height,
 			tiles: [],
 			goto: function (destination_index) {
 				var current_tile = this.tiles[this.current_index],
@@ -117,14 +118,16 @@
 				}
 				calculatePositions.call(this);
 				return this;
+			},
+			resize: function (attr) {
+				
 			}
 		};
 		
 		transition = attr.transition || "left 0.25s linear, top 0.25s linear";
 
 		stylize.call(grid.el, {
-			width: 100 * grid.n_col / grid.n_col_visible + '%',
-			height: 100 * attr.data.length / (grid.n_col * grid.n_row_visible) + '%',
+			width: grid.tile_width * grid.n_col + 'px', 
 			position: 'relative',
 			overflow: 'visible',
 			top: 0,
@@ -137,6 +140,8 @@
 		});
 
 		stylize.call(attr.container, {
+			width: grid.tile_width * grid.n_col_visible + 'px', 
+			height: grid.tile_height && grid.n_row_visible ? grid.tile_height * grid.n_row_visible + 'px' : 'auto', 
 			overflow: 'hidden',
 			position: 'relative'
 		});		
@@ -145,6 +150,6 @@
 		attr.container.appendChild(grid.el);
 		return grid;
 	};
-}).call(this);
+})();
 
 
