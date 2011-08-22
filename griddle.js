@@ -119,15 +119,25 @@
 				calculatePositions.call(this);
 				return this;
 			},
-			resize: function (attr) {
-				
+			setDimensions: function (n_col, n_col_visible, n_row_visible) {
+				this.n_col = n_col || this.n_col;
+				this.n_col_visible = n_col_visible || this.n_col_visible;
+				this.n_row_visible = n_row_visible || this.n_row_visible;
+				stylize.call(grid.el, {
+					width: grid.tile_width * grid.n_col + 'px' 
+				});
+				stylize.call(grid.container, {
+					width: grid.tile_width * grid.n_col_visible + 'px', 
+					height: grid.tile_height && grid.n_row_visible ? grid.tile_height * grid.n_row_visible + 'px' : 'auto' 
+				});
+				calculatePositions.call(this);	
+				return this;
 			}
 		};
 		
 		transition = attr.transition || "left 0.25s linear, top 0.25s linear";
 
 		stylize.call(grid.el, {
-			width: grid.tile_width * grid.n_col + 'px', 
 			position: 'relative',
 			overflow: 'visible',
 			top: 0,
@@ -140,12 +150,11 @@
 		});
 
 		stylize.call(attr.container, {
-			width: grid.tile_width * grid.n_col_visible + 'px', 
-			height: grid.tile_height && grid.n_row_visible ? grid.tile_height * grid.n_row_visible + 'px' : 'auto', 
 			overflow: 'hidden',
 			position: 'relative'
 		});		
 
+		grid.setDimensions(attr.n_col, attr.n_col_visible, attr.n_row_visible);
 		grid.add(attr.data);
 		attr.container.appendChild(grid.el);
 		return grid;
