@@ -1,11 +1,27 @@
+//     Griddle.js 0.1
+//     (c) 2011 Jeremy Singer-Vine
+//     Griddle may be freely distributed under the MIT license.
+//     Details and documentation at: http://jsvine.github.com/griddle
+
 (function () {
-	var Griddle = {};
+
+	// Initial Setup
+	// -------------
+
+	var Griddle = {
+		VERSION: 0.1	
+	};
+
+	// If Griddle has already been loaded, or if there's another object
+	// in the window.Griddle namespace, throw an error.
 	if (window.Griddle) {
 		throw new Error('Global `Griddle` already exists.');	
 	} else {
 		window.Griddle = Griddle;	
 	}
-	// HELPER FUNCTIONS
+
+	// Helper function for stylizing elements. 
+	// Use as `stylize.call` to set `this`.
 	function stylize(styles) {
 		var s;
 		for (s in styles) {
@@ -13,12 +29,20 @@
 		}
 		return this;
 	}
+
+	// Helper function to create DOM elements, with
+	// optional class name and inner HTML.
 	function CE(tag, className, innerHTML) {
 		var el = document.createElement(tag);
 		if (className) { el.className = className; }
 		if (innerHTML) { el.innerHTML = innerHTML; }
 		return el;
 	}
+
+	// Private function to calculate, for each tile, whether it 
+	// has a neighboring tile to the left, right, top, or bottom. 
+	// Called every time the grid layout changes or a tile is added 
+	// or removed. Also records an x and y coordinate.
 	function calculatePositions() {
 		var i, x, y;
 		for (i = 0; i < this.tiles.length; i++) {
@@ -35,7 +59,8 @@
 			}	
 		}
 	}
-	// `Tile` constructor	
+
+	// Constructor pattern to create tiles. 
 	function Tile(data) {
 		var el = CE(this.tile_element_type, 'griddle_tile');
 		stylize.call(el, {
