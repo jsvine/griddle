@@ -56,7 +56,7 @@
 				right: x < (this.n_col - 1) ? i + 1 : false,
 				up: y > 0 ? i - this.n_col : false,
 				down: y < ((this.tiles.length / this.n_col) - 1) ? i + this.n_col : false
-			}	
+			};	
 		}
 	}
 
@@ -82,7 +82,7 @@
 // `init` creates a new griddle, using `container` as the holder,
 // accepting any `attr.data`, a custom `render` function, and `options`.
 	Griddle.create = function (attr) {
-		var grid, tile, i, transition;
+		var grid, i, transition;
 		grid = {
 			init_attr: attr,
 			container: attr.container,
@@ -97,8 +97,7 @@
 			tile_height: attr.tile_height,
 			tiles: [],
 			goto: function (destination_index) {
-				var current_tile = this.tiles[this.current_index],
-					destination_tile = this.tiles[destination_index];
+				var destination_tile = this.tiles[destination_index];
 				this.el.style.left = -(destination_tile.el.offsetLeft) + 'px';
 				this.el.style.top = -(destination_tile.el.offsetTop) + 'px';
 				if (attr.onexit) { attr.onexit.call(grid); }
@@ -124,7 +123,7 @@
 				}
 				for (i = 0; i < data.length; i++) {
 					tile = Tile.call(grid, data[i]);
-					attr.render.call(tile);
+					render.call(tile);
 					if (index === undefined) {
 						this.el.appendChild(tile.el);
 						this.tiles.push(tile);
@@ -139,7 +138,9 @@
 			remove: function (index, n, removedTilesArray) {
 				var countdown = n || 1;
 				while (countdown--) {
-					removedTilesArray && removeTilesArray.push(this.tiles.slice(i, 1));
+					if (removedTilesArray) {
+						removedTilesArray.push(this.tiles.slice(i, 1));
+					}
 					this.el.removeChild(this.tiles[index].el);
 					this.tiles.splice(index, 1);
 				}
