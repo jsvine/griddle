@@ -5,23 +5,31 @@
 	<meta http-equiv="content-type" content="text/html; charset=utf-8">
 
 	<title>Grid Test</title>
-	
+	<style>
+		#grid_test {
+			margin: 20px auto;	
+		}
+	</style>	
 </head>
 <body>
 	<div id='grid_test'></div>
-	<link rel="stylesheet" href="griddle.css" type="text/css" media="screen" charset="utf-8"></link>
 	<script src="griddle.js" type="text/javascript" charset="utf-8"></script>
 	<script type="text/javascript" charset="utf-8">
-		var grid = Griddle.init({
+		var grid = Griddle.create({
 				container: document.getElementById('grid_test'), 
 				data: ["#daa","#aba", "#086", "#234",
+					"#88E","#EDA", "#630", "#6E3",
 					"#cca","#ada", "#EFA", "#3FE"],
 				n_col: 4,
-				render: function(datum){
-					this.style.backgroundColor = datum;	
-				},
-				enableArrows: true
+				tile_width: 60,
+				tile_height: 40,
+				n_col_visible: 2,
+				n_row_visible: 3,
+				render: function(){
+					this.el.style.backgroundColor = this.data;	
+				}			
 			});
+
 	</script>
 </body>
 </html>
