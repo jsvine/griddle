@@ -63,8 +63,8 @@
 			container: attr.container,
 			el: CE('div', 'griddle'),
 			n_col: attr.n_col || attr.data.length,
-			n_col_visible: attr.n_col_visible || 1,
-			n_row_visible: attr.n_row_visible || 1,
+			n_col_visible: attr.n_col_visible || attr.n_col,
+			n_row_visible: attr.n_row_visible,
 			current_index: 0,
 			tile_width: attr.tile_width,
 			tile_height: attr.tile_height,
@@ -160,5 +160,3 @@
 		return grid;
 	};
 })();
-
-
