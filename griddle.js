@@ -37,7 +37,7 @@
 	}
 	// `Tile` constructor	
 	function Tile(data) {
-		var el = CE('div', 'griddle_tile');
+		var el = CE(this.tile_element_type, 'griddle_tile');
 		stylize.call(el, {
 			cssFloat: 'left',
 			styleFloat: 'left', // For IE
@@ -61,7 +61,9 @@
 		grid = {
 			init_attr: attr,
 			container: attr.container,
-			el: CE('div', 'griddle'),
+			grid_element_type: attr.grid_element_type || 'div',
+			tile_element_type: attr.tile_element_type || 'div',
+			el: CE(attr.grid_element_type || 'div', 'griddle'),
 			n_col: attr.n_col || attr.data.length,
 			n_col_visible: attr.n_col_visible || attr.n_col,
 			n_row_visible: attr.n_row_visible,
