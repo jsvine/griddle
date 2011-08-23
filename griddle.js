@@ -123,7 +123,6 @@
 				}
 				for (i = 0; i < data.length; i++) {
 					tile = Tile.call(grid, data[i]);
-					render.call(tile);
 					if (index === undefined) {
 						this.el.appendChild(tile.el);
 						this.tiles.push(tile);
@@ -133,6 +132,10 @@
 					}
 				}
 				calculatePositions.call(this);	
+				// Call render() only after positions have been calculated.
+				for (i = 0; i < data.length; i++) {
+					render.call(tile);
+				}
 				return this;
 			},
 			remove: function (index, n, removedTilesArray) {
