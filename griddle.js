@@ -117,12 +117,13 @@
 				return this.goto(i); // which ultimately returns 'this'
 			},
 			add: function (data, index, custom_render) {
-				var tile, i, render = custom_render || attr.render;
+				var tile, new_tiles = [], i, render = custom_render || attr.render;
 				if (Object.prototype.toString.call(data) !== '[object Array]') {
 					data = [data];	
 				}
 				for (i = 0; i < data.length; i++) {
 					tile = Tile.call(grid, data[i]);
+					new_tiles.push(tile);
 					if (index === undefined) {
 						this.el.appendChild(tile.el);
 						this.tiles.push(tile);
@@ -133,8 +134,8 @@
 				}
 				calculatePositions.call(this);	
 				// Call render() only after positions have been calculated.
-				for (i = 0; i < data.length; i++) {
-					render.call(tile);
+				for (i = 0; i < new_tiles.length; i++) {
+					render.call(new_tiles[i]);
 				}
 				return this;
 			},
