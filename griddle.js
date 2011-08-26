@@ -80,29 +80,29 @@
 	}
 
 // `init` creates a new griddle, using `container` as the holder,
-// accepting any `attr.data`, a custom `render` function, and `options`.
-	Griddle.create = function (attr) {
+// accepting any `config.data`, a custom `render` function, and `options`.
+	Griddle.create = function (config) {
 		var grid, i, transition;
 		grid = {
-			init_attr: attr,
-			container: attr.container,
-			grid_element_type: attr.grid_element_type || 'div',
-			tile_element_type: attr.tile_element_type || 'div',
-			el: CE(attr.grid_element_type || 'div', 'griddle'),
-			n_col: attr.n_col || attr.data.length,
-			n_col_visible: attr.n_col_visible || attr.n_col,
-			n_row_visible: attr.n_row_visible,
+			init_config: config,
+			container: config.container,
+			grid_element_type: config.grid_element_type || 'div',
+			tile_element_type: config.tile_element_type || 'div',
+			el: CE(config.grid_element_type || 'div', 'griddle'),
+			n_col: config.n_col || config.data.length,
+			n_col_visible: config.n_col_visible || config.n_col,
+			n_row_visible: config.n_row_visible,
 			current_index: 0,
-			tile_width: attr.tile_width,
-			tile_height: attr.tile_height,
+			tile_width: config.tile_width,
+			tile_height: config.tile_height,
 			tiles: [],
 			goto: function (destination_index) {
 				var destination_tile = this.tiles[destination_index];
 				this.el.style.left = -(destination_tile.el.offsetLeft) + 'px';
 				this.el.style.top = -(destination_tile.el.offsetTop) + 'px';
-				if (attr.onexit) { attr.onexit.call(grid); }
+				if (config.onexit) { config.onexit.call(grid); }
 				this.current_index = destination_index;
-				if (attr.onenter) { attr.onenter.call(grid); }
+				if (config.onenter) { config.onenter.call(grid); }
 				return this;
 			},
 			shift: function (direction, distance) { // distance is an optional param, defaults to 1
@@ -117,7 +117,7 @@
 				return this.goto(i); // which ultimately returns 'this'
 			},
 			add: function (data, index, custom_render) {
-				var tile, new_tiles = [], i, render = custom_render || attr.render;
+				var tile, new_tiles = [], i, render = custom_render || config.render;
 				if (Object.prototype.toString.call(data) !== '[object Array]') {
 					data = [data];	
 				}
@@ -167,7 +167,7 @@
 			}
 		};
 		
-		transition = attr.transition || "left 0.25s linear, top 0.25s linear";
+		transition = config.transition || "left 0.25s linear, top 0.25s linear";
 
 		stylize.call(grid.el, {
 			position: 'relative',
@@ -181,14 +181,14 @@
 			Transition: transition
 		});
 
-		stylize.call(attr.container, {
+		stylize.call(config.container, {
 			overflow: 'hidden',
 			position: 'relative'
 		});		
 
-		grid.setDimensions({n_col: attr.n_col, n_col_visible: attr.n_col_visible, n_row_visible: attr.n_row_visible});
-		grid.add(attr.data);
-		attr.container.appendChild(grid.el);
+		grid.setDimensions({n_col: config.n_col, n_col_visible: config.n_col_visible, n_row_visible: config.n_row_visible});
+		grid.add(config.data);
+		config.container.appendChild(grid.el);
 		return grid;
 	};
 }());
