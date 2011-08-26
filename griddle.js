@@ -151,10 +151,10 @@
 				calculatePositions.call(this);
 				return this;
 			},
-			setDimensions: function (n_col, n_col_visible, n_row_visible) {
-				this.n_col = n_col || this.n_col;
-				this.n_col_visible = n_col_visible || this.n_col_visible;
-				this.n_row_visible = n_row_visible || this.n_row_visible;
+			setDimensions: function (config) {
+				this.n_col = config.n_col || this.n_col;
+				this.n_col_visible = config.n_col_visible || this.n_col_visible;
+				this.n_row_visible = config.n_row_visible || this.n_row_visible;
 				stylize.call(grid.el, {
 					width: grid.tile_width * grid.n_col + 'px' 
 				});
@@ -186,7 +186,7 @@
 			position: 'relative'
 		});		
 
-		grid.setDimensions(attr.n_col, attr.n_col_visible, attr.n_row_visible);
+		grid.setDimensions({n_col: attr.n_col, n_col_visible: attr.n_col_visible, n_row_visible: attr.n_row_visible});
 		grid.add(attr.data);
 		attr.container.appendChild(grid.el);
 		return grid;
