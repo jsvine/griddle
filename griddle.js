@@ -151,11 +151,11 @@
 		return this;
 	};
 
-	// `goto()` aligns the top-left corner of the tile at `destination_index`
+	// `go()` aligns the top-left corner of the tile at `destination_index`
 	// with the top-left corner of the Griddle container. If `onexit` and `onenter`
 	// functions were included in Griddle.create()'s `config` argument, those are 
 	// invoked. 
-	Grid.prototype.goto = function (destination_index) {
+	Grid.prototype.go = function (destination_index) {
 		var destination_tile = this.tiles[destination_index];
 		this.el.style.left = -(destination_tile.el.offsetLeft) + 'px';
 		this.el.style.top = -(destination_tile.el.offsetTop) + 'px';
@@ -177,7 +177,7 @@
 				return false;	
 			}
 		}
-		return this.goto(i); // which ultimately returns 'this'
+		return this.go(i); // which ultimately returns 'this'
 	};
 	
 	// `setDimensions` sets or resets the number of columns in the grid,
