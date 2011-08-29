@@ -54,6 +54,22 @@
 		}
 	}
 
+	// Constructor to create tiles. 
+	function Tile(grid, data) {
+		this.el = CE(grid.tile_element_type, 'griddle_tile');
+		stylize.call(this.el, {
+			cssFloat: 'left',
+			styleFloat: 'left', // For IE
+			width: grid.tile_width ? grid.tile_width + 'px' : 'auto',
+			height: grid.tile_height ? grid.tile_height + 'px' : 'auto'
+		});
+		this.data = data;
+		this.index = null;
+		this.x = null;
+		this.y = null;
+		this.adjacent = {};
+	}
+	
 	// Contructor to create grids.
 	function Grid(config) {
 		var transition = config.transition || "left 0.25s linear, top 0.25s linear";
@@ -117,7 +133,7 @@
 		}
 		
 		return this;
-	}
+	};
 
 	// `Remove()` deletes `n` tiles from the grid, beginning with the
 	// tile at `index`. If the optional `removedTilesArray` is provided,
@@ -126,14 +142,14 @@
 		var countdown = n || 1;
 		while (countdown--) {
 			if (removedTilesArray) {
-				removedTilesArray.push(this.tiles.slice(i, 1));
+				removedTilesArray.push(this.tiles.slice(index, 1));
 			}
 			this.el.removeChild(this.tiles[index].el);
 			this.tiles.splice(index, 1);
 		}
 		calculatePositions.call(this);
 		return this;
-	}
+	};
 
 	// `goto()` aligns the top-left corner of the tile at `destination_index`
 	// with the top-left corner of the Griddle container. If `onexit` and `onenter`
@@ -143,11 +159,11 @@
 		var destination_tile = this.tiles[destination_index];
 		this.el.style.left = -(destination_tile.el.offsetLeft) + 'px';
 		this.el.style.top = -(destination_tile.el.offsetTop) + 'px';
-		if (this.config.onexit) { this.config.onexit.call(grid); }
+		if (this.config.onexit) { this.config.onexit.call(this); }
 		this.current_index = destination_index;
-		if (this.config.onenter) { this.config.onenter.call(grid); }
+		if (this.config.onenter) { this.config.onenter.call(this); }
 		return this;
-	}
+	};
 
 	// `shift()` moves the grid in the direction that *simulates* the viewport
 	// moving `distance` (optional, defaults to 1) tiles in `direction`. In reality, 
@@ -162,7 +178,7 @@
 			}
 		}
 		return this.goto(i); // which ultimately returns 'this'
-	}
+	};
 	
 	// `setDimensions` sets or resets the number of columns in the grid,
 	// the number of columns visible in the viewport, and/or the number 
@@ -185,22 +201,6 @@
 		return this;
 	};
 
-	// Constructor to create tiles. 
-	function Tile(grid, data) {
-		this.el = CE(grid.tile_element_type, 'griddle_tile');
-		stylize.call(this.el, {
-			cssFloat: 'left',
-			styleFloat: 'left', // For IE
-			width: grid.tile_width ? grid.tile_width + 'px' : 'auto',
-			height: grid.tile_height ? grid.tile_height + 'px' : 'auto'
-		});
-		this.data = data;
-		this.index = null;
-		this.x = null;
-		this.y = null;
-		this.adjacent = {};
-	}
-	
 
 	// `create()` builds a Griddle, using `container` as the holder,
 	// accepting any a config object and returning the resulting grid. 
@@ -229,8 +229,8 @@
 	// to create for each tile. Defaults to 'div'.
 	// - **transition**: CSS transition property applied to the grid. Defaults
 	// to "left 0.25s linear, top 0.25s linear".
-	// - **onexit**: A function called on the starting tile of `goto()`
-	// - **onenter**: A function called on the destination tile of `goto()`
+	// - **onexit**: A function called on the grid before changing `current_index`.
+	// - **onenter**: A function called on the grid after changing `current_index`.
 	Griddle.create = function (config) {
 		var grid = new Grid(config); 
 
