@@ -1,0 +1,78 @@
+html {
+	background-color: #EED;	
+}
+
+body {
+	margin: 10px auto;
+	width: 600px;
+	font-family: Georgia, serif;
+	font-size: 18px;
+	line-height: 24px;
+	color: #333;
+}
+
+.header {
+	font-size: 48px;
+	line-height: 60px;
+}
+
+.sub_header {
+	font-size: 24px;
+	line-height: 30px;
+	color: #666;
+}
+
+.note {
+	font-size: 12px;
+	line-height: 30px;
+}
+
+p {
+		
+}
+
+
+.demo {
+	border-bottom: 1px solid #CECECE;	
+	padding-bottom: 10px;
+}
+
+
+.left, .right, .up, .down {
+	background-repeat: no-repeat;
+	width: 25px;
+	height: 25px;
+	cursor: pointer;
+}
+
+.left { background-image: url('images/55_leftarrow_inv_thumb.gif'); }
+
+.right { background-image: url('images/51_rightarrow_inv_thumb.gif'); }
+
+.up { background-image: url('images/53_uparrow_inv_thumb.gif'); }
+
+.down { background-image: url('images/57_downarrow_inv_thumb.gif'); }
+
+code, pre { 
+	font-size: 14px;
+	line-height: 14px;
+}
+
+pre { 
+	margin: 5px 0;
+	padding: 5px;
+	border: 1px solid #CECECE;
+	background-color: #EEE;
+}
+
+code .keyword              { font-weight: bold }
+
+code .string, code .regexp { color: green }
+
+code .class, code .special { color: darkorange }
+
+code .number               { color: blue }
+
+code .comment              { color: grey }
+
+

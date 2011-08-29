@@ -1,83 +1,146 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <meta charset='utf-8'>
+	<meta charset='utf-8'>
 
-  <title>jsvine/Griddle.js @ GitHub</title>
+	<title>Griddle.js @ GitHub</title>
+	<link rel="stylesheet" href="styles.css" type="text/css" charset="utf-8"/>
+	<script type="text/javascript" language="javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script> 
+	<script type="text/javascript" language="javascript" src="griddle.js"></script> 
 
-  <style type="text/css">
-    body {
-      margin-top: 1.0em;
-      background-color: #527993;
-      font-family: Helvetica, Arial, FreeSans, san-serif;
-      color: #ffffff;
-    }
-    #container {
-      margin: 0 auto;
-      width: 700px;
-    }
-    h1 { font-size: 3.8em; color: #ad866c; margin-bottom: 3px; }
-    h1 .small { font-size: 0.4em; }
-    h1 a { text-decoration: none }
-    h2 { font-size: 1.5em; color: #ad866c; }
-    h3 { text-align: center; color: #ad866c; }
-    a { color: #ad866c; }
-    .description { font-size: 1.2em; margin-bottom: 30px; margin-top: 30px; font-style: italic;}
-    .download { float: right; }
-    pre { background: #000; color: #fff; padding: 15px;}
-    hr { border: 0; width: 80%; border-bottom: 1px solid #aaa}
-    .footer { text-align:center; padding-top:30px; font-style: italic; }
-  </style>
 </head>
-
 <body>
-  <a href="http://github.com/jsvine/Griddle.js"><img style="position: absolute; top: 0; right: 0; border: 0;" src="http://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub" /></a>
-
-  <div id="container">
-
-    <div class="download">
-      <a href="http://github.com/jsvine/Griddle.js/zipball/master">
-        <img border="0" width="90" src="http://github.com/images/modules/download/zip.png"></a>
-      <a href="http://github.com/jsvine/Griddle.js/tarball/master">
-        <img border="0" width="90" src="http://github.com/images/modules/download/tar.png"></a>
-    </div>
-
-    <h1><a href="http://github.com/jsvine/Griddle.js">Griddle.js</a>
-      <span class="small">by <a href="http://github.com/jsvine">jsvine</a></span></h1>
-
-    <div class="description">
-      Creates draggable, snappable, zoomable, tile-mappy grids of HTML divs. 
-    </div>
-
-    <p>TK</p><h2>Dependencies</h2>
-<p>TK</p>
-<h2>Install</h2>
-<p>TK</p>
-<h2>License</h2>
-<p>TK</p>
-<h2>Authors</h2>
-<p>Jeremy Singer-Vine      </p>
-<h2>Contact</h2>
-<p> (jsvine@gmail.com)<br/>      </p>
-
-
-    <h2>Download</h2>
-    <p>
-      You can download this project in either
-      <a href="http://github.com/jsvine/Griddle.js/zipball/master">zip</a> or
-      <a href="http://github.com/jsvine/Griddle.js/tarball/master">tar</a> formats.
-    </p>
-    <p>You can also clone the project with <a href="http://git-scm.com">Git</a>
-      by running:
-      <pre>$ git clone git://github.com/jsvine/Griddle.js</pre>
-    </p>
-
-    <div class="footer">
-      get the source code on GitHub : <a href="http://github.com/jsvine/Griddle.js">jsvine/Griddle.js</a>
-    </div>
-
-  </div>
-
-  
+	<div class='header'>Griddle.js</div>
+	<div class='sub_header'>Programmable, fluid, shift-able grids.</div>
+	<p>Griddle is a small JavaScript tool that lets you build and manipulate fluid, programmable grids. It requires no dependencies and should work with all major browsers. (Systematic tests forthcoming.) The <a href='https://github.com/jsvine/griddle'>source code</a> is fairly straightforward, but full documentation isn't quite ready. In the meantime, a few demos should help:</p>
+	<p>
+		<ul id='demo_list'>
+		</ul>
+	</p>
+	<p>
+		<div id='demo_1' class='demo'>
+			<div class='sub_header'>Demo #1: A basic grid.</div>
+			<div id='demo_1_container'></div>
+			<script type='text/javascript' class='demo_script'>
+Griddle.create({
+	container: document.getElementById('demo_1_container'),
+	data: [
+		'#AAA', '#AAB', '#ABA', '#BAA',
+		'#ABC', '#ACB', '#BAC', '#BCA'
+	],
+	tile_height: 100,
+	tile_width: 100,
+	n_col: 4,
+	render: function () {
+		this.el.style.backgroundColor = this.data;
+		this.el.innerHTML = this.data;
+	}
+});
+			</script>
+			Here, we set <code>container</code> to the div we want the grid to appear in.
+			We set <code>data</code> to an array of numbers, strings, or objects. Each element 
+			of the array represents a tile in the grid. So we'll have eight tiles in this grid.
+			<br/><br/>
+			We set <code>tile_height</code> and <code>tile_width</code> to the desired dimensions (in pixels)
+			of each tile in the grid. The property <code>n_col</code> indicates the number of 
+			columns the grid should have. (Behind the scenes, Griddle is setting the grid's 
+			width to <code>n_col * tile_width</code>. All tiles get <code>float: left</code> styling.)
+			Implicitly, this means our 8-tile grid will have two rows.
+			<br/><br/>
+			Finally, we set <code>render</code> to a function. This function is called as a pseudo-method
+			of the <code>tile</code> object, whose most important properties are <code>el</code> (the 
+			tile HTML element) and <code>data</code> (the string, number, or object you passed along
+			in <code>Griddle.create</code>'s <code>data</code> array).
+		</div>
+	</p>
+	<p>
+		<div id='demo_2' class='demo'>
+			<div class='sub_header'>Demo #2: A basic slide-able grid.</div>
+			<div class='note'>(Though Griddle.js has no dependencies, the following demos use jQuery for concision's sake.)</div>
+			<div id='demo_2_container' style='float: left;'></div>
+			<div id='demo_2_controls' style='float: left; margin-left: 10px; position: relative;'>
+				<div class='right' style='position: absolute; top: 0;'></div>
+				<div class='left' style='display: none; position: absolute; top: 30px;'></div>
+			</div>
+			<div style='clear: both;'></div>
+			<script type='text/javascript' class='demo_script'>
+(function () {
+	var grid = Griddle.create({
+		container: $('#demo_2_container')[0],
+		tile_height: 100,
+		tile_width: 100,
+		n_col: 4,
+		n_col_visible: 2,
+		data: [
+			'#AAA', '#AAB', '#ABA', '#BAA',
+			'#ABC', '#ACB', '#BAC', '#BCA'
+		],
+		render: function () {
+			this.el.style.backgroundColor = this.data;
+			this.el.innerHTML = this.data;
+		}
+	});
+	var $right = $('#demo_2_controls').find('.right'),
+		$left = $('#demo_2_controls').find('.left');
+	$left.click(function () {
+		grid.shift('left');
+		$right.show();
+		if (grid.tiles[grid.current_index]
+				.adjacent.left === false) {
+			$left.hide();	
+		}
+	});	
+	$right.click(function () {
+		grid.shift('right');
+		$left.show();
+		if (grid.tiles[grid.current_index]
+				.adjacent.right === false) {
+			$right.hide();	
+		}
+	});	
+}());
+			</script>
+		</div>
+	</p>
+	<hr/>
+	<p>
+		<div id='demo_3' class='demo'>
+			<div class='sub_header'>[TK] Demo #3: Making each tile's content more interesting.</div>
+			<div id='demo_3_container'></div>
+			<script type='text/javascript' class='demo_script'>
+			</script>
+		</div>
+	</p>
+	<p>
+		<div id='demo_4' class='demo'>
+			<div class='sub_header'>[TK] Demo #4: Adding and removing tiles.</div>
+			<div id='demo_4_container'></div>
+			<script type='text/javascript' class='demo_script'>
+			</script>
+		</div>
+	</p>
+	<p>
+		<div id='demo_5' class='demo'>
+			<div class='sub_header'>[TK] Demo #5: Adjusting grid dimensions.</div>
+			<div id='demo_5_container'></div>
+			<script type='text/javascript' class='demo_script'>
+			</script>
+		</div>
+	</p>
+	<script type="text/javascript" charset="utf-8">
+	$('.demo').each(function (i, el) {
+		$('#demo_list').append($('<li>')
+			.append($('<a>')
+				.html($(el).
+					find('.sub_header')
+					.html())
+				.attr('href', '#demo_' + (i + 1))));	
+	});
+  	$('.demo_script').each(function (i, el) {
+		var $el = $(el);
+		$el.before($('<pre>').append($('<code>').html($el.html().trim().replace(/\t/g, '    '))));
+	});
+	$.getScript('https://raw.github.com/cloudhead/hijs/master/hijs.js');
+	</script>
 </body>
 </html>
