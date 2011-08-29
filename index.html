@@ -49,7 +49,7 @@ Griddle.create({
 			<br/><br/>
 			Finally, we set <code>render</code> to a function. This function is called as a pseudo-method
 			of the <code>tile</code> object, whose most important properties are <code>el</code> (the 
-			tile HTML element) and <code>data</code> (the string, number, or object you passed along
+			tile's HTML element) and <code>data</code> (the string, number, or object you passed along
 			in <code>Griddle.create</code>'s <code>data</code> array).
 		</div>
 	</p>
@@ -67,19 +67,21 @@ Griddle.create({
 (function () {
 	var grid = Griddle.create({
 		container: $('#demo_2_container')[0],
-		tile_height: 100,
-		tile_width: 100,
-		n_col: 4,
-		n_col_visible: 2,
 		data: [
 			'#AAA', '#AAB', '#ABA', '#BAA',
 			'#ABC', '#ACB', '#BAC', '#BCA'
 		],
+		tile_height: 100,
+		tile_width: 100,
+		n_col: 4,
+		n_col_visible: 2, // The key difference from the previous example.
 		render: function () {
 			this.el.style.backgroundColor = this.data;
 			this.el.innerHTML = this.data;
 		}
 	});
+
+	// Controls for shifting.
 	var $right = $('#demo_2_controls').find('.right'),
 		$left = $('#demo_2_controls').find('.left');
 	$left.click(function () {
