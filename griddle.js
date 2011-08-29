@@ -69,7 +69,6 @@
 		this.current_index = 0;
 		this.tile_width = config.tile_width;
 		this.tile_height = config.tile_height;
-		this.container_width = config.container_width;
 		this.container_height = config.container_height;
 		this.tiles = [];
 		stylize.call(this.el, {
@@ -177,7 +176,7 @@
 			width: this.tile_width * this.n_col + 'px'
 		});
 		stylize.call(this.container, {
-			width: (this.tile_width ? this.tile_width * this.n_col_visible : this.container_width) + 'px', 
+			width: this.tile_width * this.n_col_visible + 'px', 
 			height: (this.tile_height && this.n_row_visible) ? 
 				this.tile_height * this.n_row_visible + 'px' : 
 				(this.container_height ? this.container_height + 'px' : 'auto') 
@@ -209,13 +208,11 @@
 	// `config` options:
 	// - **container** (required): An empty HTML div element, which
 	// will act as the viewport.
-	// - **tile_width** (mostly required)
-	// - **tile_height** (optional)
+	// - **tile_width** (required): Each tile's width, in pixels.
+	// - **tile_height** (optional): Each tile's height, in pixels.
 	// - **container_height** (optional): Used if `tile_height` and 
 	// `n_row_visible` are not supplied. Useful for grids with tiles of 
 	// a certain width but an uncertain height.
-	// - **container_width** (optional): Used if `tile_width` is undefined
-	// and `n_row_visible` === 1.
 	// - **render** (optional, strongly suggested): A function called 
 	// on each tile, to render it.
 	// - **data** (optional): An array of objects, each of which is used
@@ -232,8 +229,8 @@
 	// to create for each tile. Defaults to 'div'.
 	// - **transition**: CSS transition property applied to the grid. Defaults
 	// to "left 0.25s linear, top 0.25s linear".
-	// - **onenter**: A function called on the destination tile of `goto()`
 	// - **onexit**: A function called on the starting tile of `goto()`
+	// - **onenter**: A function called on the destination tile of `goto()`
 	Griddle.create = function (config) {
 		var grid = new Grid(config); 
 
